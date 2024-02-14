@@ -1,97 +1,97 @@
 <script> 
-  // Author: Lesley-Nicholas Vassallo 
-  // Date: 2024/02/14
-  // Disclaimer: This script was written for my personal learning and testing. Use this code at your own risk. I am not responsible for any damage or issues that this script causes to your site. 
-
-  // Notes: 
-  // -- This code can be placed in a custom HTML tag within Google Tag Manager to set up a simple AB test. The set should be adjusted to make the desired changes to the page. 
-  // -- Within GTM, the dataLayer information can be read, and then passed to GA4. The test_name and page_variant_name variables can be set up as custom dimensions within GA4 to be later used to measure the A/B test impact. 
-  // -- The split for the tests is based on users, not sessions. To do this, the variant assigned to the device is stored in a cookie and read again if the user comes back through a new session. 
-
-
-  // This function reads the cookies, and searches for the cookie of the test specifically. If the cookie is not found, it will return an empty value of ''. 
-  function readCookie(testName){
-    console.log('-----------\n\nreading cookies');
-    var cookies = decodeURIComponent(document.cookie);
-    var splitCookie = cookies.split(';');
-    var testCookie = '';
-    for(var i =0;i<splitCookie.length;i++){
-      if(splitCookie[i].includes(testName)){
-         testCookie = splitCookie[i].replace(testName+'=','').trim();
-         break;
+    // Author: Lesley-Nicholas Vassallo 
+    // Date: 2024/02/14
+    // Disclaimer: This script was written for my personal learning and testing. Use this code at your own risk. I am not responsible for any damage or issues that this script causes to your site. 
+  
+    // Notes: 
+    // -- This code can be placed in a custom HTML tag within Google Tag Manager to set up a simple AB test. The set should be adjusted to make the desired changes to the page. 
+    // -- Within GTM, the dataLayer information can be read, and then passed to GA4. The test_name and page_variant_name variables can be set up as custom dimensions within GA4 to be later used to measure the A/B test impact. 
+    // -- The split for the tests is based on users, not sessions. To do this, the variant assigned to the device is stored in a cookie and read again if the user comes back through a new session. 
+  
+  
+    // This function reads the cookies, and searches for the cookie of the test specifically. If the cookie is not found, it will return an empty value of ''. 
+    function readCookie(testName){
+      console.log('-----------\n\nreading cookies');
+      var cookies = decodeURIComponent(document.cookie);
+      var splitCookie = cookies.split(';');
+      var testCookie = '';
+      for(var i =0;i<splitCookie.length;i++){
+        if(splitCookie[i].includes(testName)){
+           testCookie = splitCookie[i].replace(testName+'=','').trim();
+           break;
+          }
         }
-      }
-    return testCookie;
-  }
-
-  //This function creates the cookie and names it to be exactly the same as the test name. That way this set up can be used to run multiple tests on the site simultaneously. 
-  function createCookie(testName,testVariant){
-    console.log('-----------\n\ncreating cookies');
-    var d = new Date();
-    d.setTime(d.getTime()+1000*60*60*24*730);
-    var expires = "expires="+d.toGMTString();
-    document.cookie = testName+"="+testVariant+"; "+expires+"; path=/";
-    console.log('cookie created!\n\n.....\n\n cookie name is: '+testName);
-  }
-
-  // This function sets the variant that the user sees based on random chance. The threshold is set in the setUpTest() function futher down by adjusting the testRatio variable. 
-  // This set up only caters for 2 variants at one time. 
-  function setVariant(testRatio){
-    console.log('-----------\n\nsetting variant');
-    var testDecider = Math.random();
-    console.log('-----------\n\ndecider = '+testDecider);
-    var testVariant = '';
-    if(testDecider >=testRatio){
-        testVariant = 'A';
-      }
-      else{
-        testVariant = 'B';
-      }
-    return testVariant;
-  }
-
-  
-  // This function makes the changes to the page.
-  function makePageChanges(){
-    // Adjust the content of this function to perform the desired changes. 
-     document.querySelector('h1').innerHTML = 'This is a test';
-  }
-
-  // This function triggers the page changes if the user was assigned variant B. 
-  // The test can be set up to make changes to variant A instead. This can be changed by setting the variable 'makeChangesOnB' to false within the setUpTest() function. 
-  function triggerPageChanges(testVariant,makeChangesOnB){
-    console.log('-----------\n\nmaking page changes');
-    var testTrigger = 'B';
-    if(makeChangesOnB=false){testTrigger='A'};
-    if(testVariant==testTrigger){
-      makePageChanges();
+      return testCookie;
     }
-  }
-
-  // This function runs the full code. 
-  function setUpTest(){
-    console.log('-----------\n\nsetting variables');
-    // Adjust these variables as required. 
-    var testName = '_my_first_test';
-    var testVariant = '';
-    var testRatio = 0.5;
-    var makeChangesOnB = true;
-
-    // Do not change the code below. 
-    testVariant = readCookie(testName); 
-    if(!testVariant){
-      console.log('cookie doesn\'t exist');
-      testVariant = setVariant(testRatio);
-      createCookie(testName,testVariant);
-    }
-    triggerPageChanges(testVariant,true);
-    dataLayer.push({'event':'page_test','test_data':{
-                                                      'test_name':testName,
-                                                      'page_variant_name':testVariant
-                                                    }});
-  }
-
-  //This line is what triggers the whole test. 
-  setUpTest();
   
-</script> 
+    //This function creates the cookie and names it to be exactly the same as the test name. That way this set up can be used to run multiple tests on the site simultaneously. 
+    function createCookie(testName,testVariant){
+      console.log('-----------\n\ncreating cookies');
+      var d = new Date();
+      d.setTime(d.getTime()+1000*60*60*24*730);
+      var expires = "expires="+d.toGMTString();
+      document.cookie = testName+"="+testVariant+"; "+expires+"; path=/";
+      console.log('cookie created!\n\n.....\n\n cookie name is: '+testName);
+    }
+  
+    // This function sets the variant that the user sees based on random chance. The threshold is set in the setUpTest() function futher down by adjusting the testRatio variable. 
+    // This set up only caters for 2 variants at one time. 
+    function setVariant(testRatio){
+      console.log('-----------\n\nsetting variant');
+      var testDecider = Math.random();
+      console.log('-----------\n\ndecider = '+testDecider);
+      var testVariant = '';
+      if(testDecider >=testRatio){
+          testVariant = 'A';
+        }
+        else{
+          testVariant = 'B';
+        }
+      return testVariant;
+    }
+  
+    
+    // This function makes the changes to the page.
+    function makePageChanges(){
+      // Adjust the content of this function to perform the desired changes. 
+       document.querySelector('h1').innerHTML = 'This is a test';
+    }
+  
+    // This function triggers the page changes if the user was assigned variant B. 
+    // The test can be set up to make changes to variant A instead. This can be changed by setting the variable 'makeChangesOnB' to false within the setUpTest() function. 
+    function triggerPageChanges(testVariant,makeChangesOnB){
+      console.log('-----------\n\nmaking page changes');
+      var testTrigger = 'B';
+      if(makeChangesOnB=false){testTrigger='A'};
+      if(testVariant==testTrigger){
+        makePageChanges();
+      }
+    }
+  
+    // This function runs the full code. 
+    function setUpTest(){
+      console.log('-----------\n\nsetting variables');
+      // Adjust these variables as required. 
+      var testName = '_my_first_test';
+      var testVariant = '';
+      var testRatio = 0.5;
+      var makeChangesOnB = true;
+  
+      // Do not change the code below. 
+      testVariant = readCookie(testName); 
+      if(!testVariant){
+        console.log('cookie doesn\'t exist');
+        testVariant = setVariant(testRatio);
+        createCookie(testName,testVariant);
+      }
+      triggerPageChanges(testVariant,makeChangesOnB);
+      dataLayer.push({'event':'page_test','test_data':{
+                                                        'test_name':testName,
+                                                        'page_variant_name':testVariant
+                                                      }});
+    }
+  
+    //This line is what triggers the whole test. 
+    setUpTest();
+    
+  </script> 
