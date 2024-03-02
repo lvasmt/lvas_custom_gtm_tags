@@ -23,37 +23,41 @@
   // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   // SOFTWARE.
     
+  // Put all the code into a function so that this code does not affect the rest of the page's code. 
+  function pushDLEvents(){
+   // Define an array of events that should be fired
+   var eventsToFire = ['view_item', 'view_item_list'];
+ 
+   // Get the length of the dataLayer array
+   var dataLayerLength = dataLayer.length;
+ 
+   // Initialize an empty object to store the current event
+   var dlEvent = {};
+ 
+   // Loop through each item in the dataLayer array
+   for (var i = 0; i < dataLayerLength; i++) {  
+ 
+     // Check if the current event is 'cookie_consent_update'
+     if (dataLayer[i].event == "cookie_consent_update") {    
+       // If 'cookie_consent_update' is found, exit the loop
+       break;  
+     } 
+ 
+     // Check if the current event should be fired (is included in eventsToFire array)
+     if (eventsToFire.includes(dataLayer[i].event)) {
+ 
+       // If the event should be fired, store it in dlEvent
+       dlEvent = dataLayer[i];
+ 
+       // Remove the 'gtm.uniqueEventId' attribute from the event object
+       delete dlEvent['gtm.uniqueEventId'];
+ 
+       // Push the modified event object back to the dataLayer array
+       dataLayer.push(dlEvent);
+     }
+   }
+  };
 
-  
-  // Define an array of events that should be fired
-  var eventsToFire = ['view_item', 'view_item_list'];
-
-  // Get the length of the dataLayer array
-  var dataLayerLength = dataLayer.length;
-
-  // Initialize an empty object to store the current event
-  var dlEvent = {};
-
-  // Loop through each item in the dataLayer array
-  for (var i = 0; i < dataLayerLength; i++) {  
-
-    // Check if the current event is 'cookie_consent_update'
-    if (dataLayer[i].event == "cookie_consent_update") {    
-      // If 'cookie_consent_update' is found, exit the loop
-      break;  
-    } 
-
-    // Check if the current event should be fired (is included in eventsToFire array)
-    if (eventsToFire.includes(dataLayer[i].event)) {
-
-      // If the event should be fired, store it in dlEvent
-      dlEvent = dataLayer[i];
-
-      // Remove the 'gtm.uniqueEventId' attribute from the event object
-      delete dlEvent['gtm.uniqueEventId'];
-
-      // Push the modified event object back to the dataLayer array
-      dataLayer.push(dlEvent);
-    }
-  }
+  // Trigger the function to push the dataLayer events. 
+  pushDLEvents();
 </script>
