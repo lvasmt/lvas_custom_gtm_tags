@@ -1,0 +1,59 @@
+ <script>
+  // Author: Lesley-Nicholas Vassallo 
+  // Date: 2024/03/02
+  // MIT License
+  
+  // Copyright (c) 2024 lvasmt
+  
+  // Permission is hereby granted, free of charge, to any person obtaining a copy
+  // of this software and associated documentation files (the "Software"), to deal
+  // in the Software without restriction, including without limitation the rights
+  // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  // copies of the Software, and to permit persons to whom the Software is
+  // furnished to do so, subject to the following conditions:
+  
+  // The above copyright notice and this permission notice shall be included in all
+  // copies or substantial portions of the Software.
+  
+  // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  // SOFTWARE.
+    
+
+  
+  // Define an array of events that should be fired
+  var eventsToFire = ['view_item', 'view_item_list'];
+
+  // Get the length of the dataLayer array
+  var dataLayerLength = dataLayer.length;
+
+  // Initialize an empty object to store the current event
+  var dlEvent = {};
+
+  // Loop through each item in the dataLayer array
+  for (var i = 0; i < dataLayerLength; i++) {  
+
+    // Check if the current event is 'cookie_consent_update'
+    if (dataLayer[i].event == "cookie_consent_update") {    
+      // If 'cookie_consent_update' is found, exit the loop
+      break;  
+    } 
+
+    // Check if the current event should be fired (is included in eventsToFire array)
+    if (eventsToFire.includes(dataLayer[i].event)) {
+
+      // If the event should be fired, store it in dlEvent
+      dlEvent = dataLayer[i];
+
+      // Remove the 'gtm.uniqueEventId' attribute from the event object
+      delete dlEvent['gtm.uniqueEventId'];
+
+      // Push the modified event object back to the dataLayer array
+      dataLayer.push(dlEvent);
+    }
+  }
+</script>
