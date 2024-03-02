@@ -1,0 +1,189 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2024-03-02 03:37:30",
+    "containerVersion": {
+        "path": "accounts/6005924513/containers/179056547/versions/0",
+        "accountId": "6005924513",
+        "containerId": "179056547",
+        "containerVersionId": "0",
+        "container": {
+            "path": "accounts/6005924513/containers/179056547",
+            "accountId": "6005924513",
+            "containerId": "179056547",
+            "name": "Read GTM consent variables",
+            "publicId": "GTM-P9NXRBD5",
+            "usageContext": [
+                "WEB"
+            ],
+            "fingerprint": "1709350558347",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6005924513/containers/179056547/workspaces?apiLink=container",
+            "features": {
+                "supportUserPermissions": true,
+                "supportEnvironments": true,
+                "supportWorkspaces": true,
+                "supportGtagConfigs": false,
+                "supportBuiltInVariables": true,
+                "supportClients": false,
+                "supportFolders": true,
+                "supportTags": true,
+                "supportTemplates": true,
+                "supportTriggers": true,
+                "supportVariables": true,
+                "supportVersions": true,
+                "supportZones": true,
+                "supportTransformations": false
+            },
+            "tagIds": [
+                "GTM-P9NXRBD5"
+            ]
+        },
+        "variable": [
+            {
+                "accountId": "6005924513",
+                "containerId": "179056547",
+                "variableId": "3",
+                "name": "JS - google_tag_data",
+                "type": "j",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "google_tag_data"
+                    }
+                ],
+                "fingerprint": "1709350613542",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6005924513",
+                "containerId": "179056547",
+                "variableId": "4",
+                "name": "cJS - Current Consent State",
+                "type": "jsm",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "javascript",
+                        "value": "function getConsentState(){\n  var consentData = {{JS - google_tag_data}}.ics.entries;\n  \n  var listOfKeys = ['ad_personalization',\n                    'ad_storage',\n                    'ad_user_data',\n                    'analytics_storage',\n                    'functionality_storage',\n                    'personalization_storage',\n                    'security_storage']; \n  \n  var currentConsentState ={};\n  \n  for(var i =0;i<listOfKeys.length;i++){\n    currentConsentState[listOfKeys[i]] = consentData[listOfKeys[i]].update;\n  }\n  \n  return currentConsentState;\n}"
+                    }
+                ],
+                "fingerprint": "1709350613543",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6005924513",
+                "containerId": "179056547",
+                "variableId": "5",
+                "name": "cJS - consent - functionality_storage",
+                "type": "jsm",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "javascript",
+                        "value": "function getFunctionalityStorageConsent(){\n  return {{cJS - Current Consent State}}.functionality_storage;\n}"
+                    }
+                ],
+                "fingerprint": "1709350613543",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6005924513",
+                "containerId": "179056547",
+                "variableId": "6",
+                "name": "cJS - consent - ad_storage",
+                "type": "jsm",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "javascript",
+                        "value": "function getAdStorageConsent(){\n  return {{cJS - Current Consent State}}.ad_storage;\n}"
+                    }
+                ],
+                "fingerprint": "1709350613544",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6005924513",
+                "containerId": "179056547",
+                "variableId": "7",
+                "name": "cJS - consent - ad_personalization",
+                "type": "jsm",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "javascript",
+                        "value": "function getAdStorageConsent(){\n  return {{cJS - Current Consent State}}.ad_personalization;\n}"
+                    }
+                ],
+                "fingerprint": "1709350613544",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6005924513",
+                "containerId": "179056547",
+                "variableId": "8",
+                "name": "cJS - consent - ad_user_data",
+                "type": "jsm",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "javascript",
+                        "value": "function getAdUserDataConsent(){\n  return {{cJS - Current Consent State}}.ad_user_data;\n}"
+                    }
+                ],
+                "fingerprint": "1709350613544",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6005924513",
+                "containerId": "179056547",
+                "variableId": "9",
+                "name": "cJS - consent - security_storage",
+                "type": "jsm",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "javascript",
+                        "value": "function getSecurityStorageConsent(){\n  return {{cJS - Current Consent State}}.security_storage;\n}"
+                    }
+                ],
+                "fingerprint": "1709350613544",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6005924513",
+                "containerId": "179056547",
+                "variableId": "10",
+                "name": "cJS - consent - personalization_storage",
+                "type": "jsm",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "javascript",
+                        "value": "function getPersonalizationStorageConsent(){\n  return {{cJS - Current Consent State}}.personalization_storage;\n}"
+                    }
+                ],
+                "fingerprint": "1709350613545",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6005924513",
+                "containerId": "179056547",
+                "variableId": "11",
+                "name": "cJS - consent - analytics_storage",
+                "type": "jsm",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "javascript",
+                        "value": "function getAnalyticsStorageConsent(){\n  return {{cJS - Current Consent State}}.analytics_storage;\n}"
+                    }
+                ],
+                "fingerprint": "1709350613545",
+                "formatValue": {}
+            }
+        ],
+        "fingerprint": "1709350650194",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/6005924513/containers/179056547/versions/0?apiLink=version"
+    }
+}
